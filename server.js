@@ -102,4 +102,30 @@ app.get("/tinder/cards", (req, res) => {
   });
 });
 //#endregion
+
+//#region FILTERING SEARCH
+
+var filterResult = {
+  users: [],
+};
+app.get("/tinder/card/filter/:pass/:orien", (req, res) => {
+  const passions = req.params["pass"];
+  const orientation = req.params["orien"];
+
+  const filterPassions = passions.split(",");
+  const filterOrientation = orientation.split(",");
+
+  if (filterPassions.length == 1) {
+    const filter = filterPassions[0];
+    console.log(filter);
+    Users.find({ "profile.passions": filter }, (err, data) => {
+      if (data) {
+        console.log("passed");
+        res.status(200).send(data);
+      }
+    });
+  }
+});
+
+//#endregion
 app.listen(PORT, () => console.log(`Listening on port ${PORT}, all is ok!`));

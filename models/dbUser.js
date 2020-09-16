@@ -4,6 +4,10 @@ const userSchema = mongoose.Schema({
   name: String,
   email: String,
   firstTime: Boolean,
+  location: {
+    lat: Number,
+    long: Number,
+  },
   profile: {
     profilePic: String,
     gender: String,

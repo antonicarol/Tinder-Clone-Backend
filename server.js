@@ -33,38 +33,19 @@ app.get("/", (req, res) => {
       "Welcome To The TINDER CLONE API Made by Antoni Carol 🚀 🔥 --> @antonicarol on Git and Twitter "
     );
 });
-
-app.post("/tinder/card/new", (req, res) => {
-  const card = req.body;
-  Cards.create(card, (err, data) => {
-    if (err) {
-      res.status(500).send(err);
-    } else {
-      res.status(201).send(data);
-    }
-  });
-});
-
-app.get("/tinder/cards", (req, res) => {
-  Cards.find((err, data) => {
-    if (err) {
-      res.status(500).send(err);
-    } else {
-      res.status(200).send(data);
-    }
-  });
-});
 //#endregion
 
 //#region Users
 app.post("/tinder/user/new", (req, res) => {
   const user = req.body;
+  console.log(user);
   Users.find({ email: user.email }, (err, data) => {
     if (data.length === 0) {
       Users.create(user, (err, data) => {
         if (err) {
           res.status(500).send(err);
         } else {
+          console.log(data);
           res.status(201).send(data);
         }
       });
@@ -90,9 +71,11 @@ app.put("/tinder/user/profile/update", (req, res) => {
   const profile = req.body;
   console.log(profile);
   const updatedProfile = {
-    age: profile.age,
-    pics: [],
+    birthday: profile.birthday,
+    profilePic: profile.pic,
     gender: profile.gender,
+    passions: profile.passions,
+    orientation: profile.orientation,
   };
 
   Users.findOneAndUpdate(
@@ -104,9 +87,19 @@ app.put("/tinder/user/profile/update", (req, res) => {
     },
     { returnOriginal: false },
     (err, data) => {
-      console.log(data);
+      res.send(data);
     }
   );
+});
+
+app.get("/tinder/cards", (req, res) => {
+  Users.find((err, data) => {
+    if (err) {
+      res.status(500).send(err);
+    } else {
+      res.status(200).send(data);
+    }
+  });
 });
 //#endregion
 app.listen(PORT, () => console.log(`Listening on port ${PORT}, all is ok!`));

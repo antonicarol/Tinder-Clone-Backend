@@ -5,9 +5,11 @@ const userSchema = mongoose.Schema({
   email: String,
   firstTime: Boolean,
   profile: {
-    pics: Array,
+    profilePic: String,
     gender: String,
-    age: Number,
+    birthday: String,
+    passions: Array,
+    orientation: Array,
   },
 });
 
